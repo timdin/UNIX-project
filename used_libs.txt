@@ -1,3 +1,10 @@
 xvfb
 selenium
 pyvirtualdisplay
+beautifulsoup
+lxml
+
+apt-get install xvfb
+apt-get python-pip
+apt-get python-lxml
+pip install beautifulsoup4 pyvirtualdisplay selenium
