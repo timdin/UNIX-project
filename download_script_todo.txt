@@ -1,0 +1,7 @@
+python: search_automation -> get page base url, episode list
+↓
+shell: get download episode list
+↓
+python: silent_selenium -> bworse page and get comic pic url, generate script
+↓
+shell: using wget
