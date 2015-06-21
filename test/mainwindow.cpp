@@ -12,8 +12,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->webView->page()->setForwardUnsupportedContent(true);
+     connect(ui->webView->page(),SIGNAL(downloadRequested(QNetworkRequest)),this,SLOT(download(QNetworkRequest)));
+     connect(ui->webView->page(),SIGNAL(unsupportedContent(QNetworkReply*)),this,SLOT(unsupportedContent(QNetworkReply*)));
+
     ui->webView->load(QUrl("http://img3.6comic.com:99/2/102/708/018_8kr.jpg"));
+
+    ui->webView->adjustSize();
      QVBoxLayout *layout = new QVBoxLayout;
+
     this->centralWidget()->setLayout(layout);
     layout->addWidget(ui->webView);
     layout->addWidget(ui->label);
@@ -26,7 +33,15 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::download(const QNetworkRequest &request){
+    qDebug()<<"Download Requested: "<<request.url();
+}
 
+void MainWindow::unsupportedContent(QNetworkReply * reply){
+
+    qDebug()<<"Unsupported Content: "<<reply->url();
+
+}
 void MainWindow::on_pushButton_localImage_clicked()
 {
 
@@ -38,15 +53,13 @@ void MainWindow::on_pushButton_localImage_clicked()
             "Image File (*.jpg *.png *.jpeg)"
             );
     //filename = "http://img3.6comic.com:99/2/102/708/018_8kr.jpg";
-    if(! ui->label->isVisible() )
+    if(! filename.isEmpty())
     {
-        ui->webView->setVisible(false);
-        ui->label->setVisible(true);
-    }
-    if(filename.isEmpty())
-         ui->label->setText("You didnt choose any file!");
-    else
-    {
+        if(! ui->label->isVisible() )
+        {
+            ui->webView->setVisible(false);
+            ui->label->setVisible(true);
+        }
         if( ui->webView->isVisible() )
             ui->webView->setVisible(false);
         QImage image(filename);
@@ -71,4 +84,10 @@ void MainWindow::on_pushButton_webView_clicked()
         ui->webView->setVisible(true);
         ui->label->setVisible(false);
     }
+}
+
+void MainWindow::on_pushButton_download_clicked()
+{
+    qDebug()<<"get";
+
 }

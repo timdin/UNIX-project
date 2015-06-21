@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +24,11 @@ private slots:
     void on_pushButton_ImageView_clicked();
 
     void on_pushButton_webView_clicked();
+
+    void download(const QNetworkRequest &request);
+
+    void unsupportedContent(QNetworkReply * reply);
+    void on_pushButton_download_clicked();
 
 private:
     Ui::MainWindow *ui;
