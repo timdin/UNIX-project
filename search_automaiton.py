@@ -37,14 +37,14 @@ print "entering comic index"
 vol_list = browser.find_elements_by_class_name('Vol')
 vol_data = {}
 for v in vol_list:
-	vol_data[v.get_attribute("id")] = v.text
-	#print vol_data[v.get_attribute("id")]
+	vol_data[v.get_attribute("id")[1:]] = v.text
+	print vol_data[v.get_attribute("id")[1:]]
 
 epi_list = browser.find_elements_by_class_name('Ch')
 epi_data = {}
 for e in epi_list:
-	epi_data[e.get_attribute("id")] = e.text
-	#print epi_data[e.get_attribute("id")]
+	epi_data[e.get_attribute("id")[1:]] = e.text
+	print epi_data[e.get_attribute("id")[1:]]
 
 script = browser.find_element_by_id("c1").get_attribute('onclick')
 
@@ -54,17 +54,21 @@ browser.execute_script(script)
 for handle in browser.window_handles:
 	browser.switch_to_window(handle)
 
-print browser.current_url
+base = browser.current_url[:-1]
+
+browser.quit()
+display.stop()
+
+download_range = eval(raw_input("Please input the chapter you would like to download\n ex: 4, 5, 6\n"))
 
 with codecs.open('url_list.txt', 'w', "utf-8") as f:
 
-	f.write("%s\n" % browser.current_url[:-1])
+	f.write("%s\n" % base)
 	#print 'Vols:'
 	for vid, vtext in vol_data.iteritems():
-		f.write("%s\t%s\n"%(vid, vtext))
+		if int(vid) in download_range:
+			f.write("%s\t%s\n"%(vid, vtext))
 	#print 'Episodes:'
 	for eid, etext in epi_data.iteritems():
-		f.write("%s\t%s\n"%(eid, etext))
-browser.quit()
-
-display.stop()
+		if int(eid) in download_range:
+			f.write("%s\t%s\n"%(eid, etext))
