@@ -67,8 +67,8 @@ with codecs.open('url_list.txt', 'w', "utf-8") as f:
 	#print 'Vols:'
 	for vid, vtext in vol_data.iteritems():
 		if int(vid) in download_range:
-			f.write("%s\t%s\n"%(vid, vtext))
+			f.write("%s\n"%(vid))
 	#print 'Episodes:'
 	for eid, etext in epi_data.iteritems():
 		if int(eid) in download_range:
-			f.write("%s\t%s\n"%(eid, etext))
+			f.write("%s\n"%(eid))
