@@ -59,7 +59,8 @@ base = browser.current_url[:-1]
 browser.quit()
 display.stop()
 
-download_range = eval(raw_input("Please input the chapter you would like to download\n ex: 4, 5, 6\n"))
+download_range = []
+download_range += eval("[" + raw_input("Please input the chapter you would like to download\n ex: 4, 5, 6\n") + "]")
 
 with codecs.open('url_list.txt', 'w', "utf-8") as f:
 	f.write("%s\n" % search)
