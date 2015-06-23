@@ -5,3 +5,6 @@ shell: get download episode list
 python: silent_selenium -> bworse page and get comic pic url, generate script
 ↓
 shell: using wget
+
+
+http://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
