@@ -31,7 +31,7 @@ with codecs.open('download_script.sh', 'w', 'utf8') as dl:
 	for vol in vol_list:
 		print ("getting vol: %s\n" % (vol))
 		dir_path = "/home/comic/"+comic_name+"/"+vol
-		dl.write("mkdir "+dir_path+"\n")
+		dl.write("mkdir -p "+dir_path+"\n")
 		browser.get(base_url+vol)
 		soup = BeautifulSoup(browser.page_source)
 		#get all pages
