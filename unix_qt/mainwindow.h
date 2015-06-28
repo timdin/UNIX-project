@@ -16,12 +16,16 @@ public:
 
 private slots:
 
-    void on_pushButton_localImage_clicked();
-
     void on_pushButton_select_clicked();
+
+    void on_pushButton_next_clicked();
+
+    void on_pushButton_previous_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QString currentImagePath;
+    int currItm;
 };
 
 #endif // MAINWINDOW_H

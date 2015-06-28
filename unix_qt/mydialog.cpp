@@ -10,16 +10,14 @@ myDialog::myDialog(QWidget *parent) :
     ui(new Ui::myDialog)
 {
     ui->setupUi(this);
-
+    filepath ="D:/Qt/5.4/test";
     QDir mDir = QDir::root();
-    if ( !mDir.cd("C:\\qt_hw") ) {
+    if ( !mDir.cd(filepath) ) {
         qWarning( "Cannot find the directory" );
-        qDebug() << mDir.path() ;
     }
-
+    mDir.cd(filepath);
+    mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
     ui->listWidget->addItems(mDir.entryList()) ;
-    delete ui->listWidget->item(1);
-    delete ui->listWidget->item(0);
 
 }
 
@@ -31,28 +29,44 @@ myDialog::~myDialog()
 void myDialog::on_pushButton_clicked()
 {
     QListWidgetItem *itm = ui->listWidget->currentItem();
-    QString imgName = itm->text();
-    QString filename = "C:/qt_hw/" + imgName;   //comic image path
+    currItm = itm->text().toInt();
+    filepath = filepath + "/" + itm->text();   //comic image path
+    QDir mDir = QDir::root();
+    mDir.setPath(filepath);
 
-    if(filename.isEmpty())
+    QFileInfo temp(filepath);
+
+    if(filepath.isEmpty())
        QMessageBox::information(this,tr("hi"),tr("Please select an item"));
-    else
+    else if(temp.isDir())
     {
-        qDebug() << filename;
-        this->setImageFilename(filename);
+       //"goto next directory "
+       this->setImageFilename(filepath);
+       ui->listWidget->clear();
+       mDir.cd(filepath);
+       mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+       ui->listWidget->addItems(mDir.entryList()) ;
     }
-    this->close();
+    else
+    {        
+        // open image
+        this->setImageFilename(filepath);
+        this->close();
+    }
+
 }
 
 QString myDialog::getImageFilename()
 {
-    QString filename = ImageFilename;
-    qDebug() << "filename: " + filename;
-    return filename;
+    return filepath;
 }
 
-void myDialog::setImageFilename(QString name)
+int myDialog::getCurrItm()
 {
-    this->ImageFilename = name;
-    qDebug() << "name: " + name;
+    return currItm;
+}
+
+void myDialog::setImageFilename(QString tmp)
+{
+    this->filepath = tmp;
 }

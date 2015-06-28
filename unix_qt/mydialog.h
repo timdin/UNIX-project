@@ -14,6 +14,7 @@ class myDialog : public QDialog
 public:
     explicit myDialog(QWidget *parent = 0);
     QString getImageFilename();
+    int getCurrItm();
     void setImageFilename(QString name);
     ~myDialog();
 
@@ -22,7 +23,8 @@ private slots:
 
 private:
     Ui::myDialog *ui;
-    QString ImageFilename;
+    QString filepath;
+    int currItm;
 };
 
 #endif // MYDIALOG_H
