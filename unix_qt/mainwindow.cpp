@@ -33,13 +33,12 @@ void MainWindow::on_pushButton_select_clicked()
     myDialog mDialog ;
     mDialog.setModal(false);
     mDialog.exec();
-    if( currentImagePath.isEmpty() )
+    if( ! mDialog.getImageFilename().isEmpty() )
     {
         this->currentImagePath = mDialog.getImageFilename();
         this->currItm = mDialog.getCurrItm();
         QImage image(currentImagePath);
         ui->label->setPixmap(QPixmap::fromImage(image));
-        ui->scrollArea->setBackgroundRole(QPalette::Dark);
         ui->scrollArea->setWidget(ui->label);
     }
 }
@@ -48,9 +47,11 @@ void MainWindow::on_pushButton_next_clicked()
 {
     if(currItm == 0) currItm++;
     //get image path and modifiy
+    qDebug() << "Before_currentImagePath" + currentImagePath;
     currentImagePath.remove(QString::number(currItm)+".jpg");
     currentImagePath = currentImagePath + QString::number((++currItm))+".jpg";
 
+    qDebug() << "After_currentImagePath" + currentImagePath;
     QImage image(currentImagePath);
     if(image.load(currentImagePath))
     {

@@ -11,7 +11,7 @@ myDialog::myDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     filepath ="D:/Qt/5.4/test";
-    QDir mDir = QDir::root();
+    QDir mDir;
     if ( !mDir.cd(filepath) ) {
         qWarning( "Cannot find the directory" );
     }
@@ -31,7 +31,7 @@ void myDialog::on_pushButton_clicked()
     QListWidgetItem *itm = ui->listWidget->currentItem();
     currItm = itm->text().toInt();
     filepath = filepath + "/" + itm->text();   //comic image path
-    QDir mDir = QDir::root();
+    QDir mDir;
     mDir.setPath(filepath);
 
     QFileInfo temp(filepath);
@@ -41,14 +41,14 @@ void myDialog::on_pushButton_clicked()
     else if(temp.isDir())
     {
        //"goto next directory "
-       this->setImageFilename(filepath);
+       this->setImageFilename(mDir.path());
        ui->listWidget->clear();
        mDir.cd(filepath);
        mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
        ui->listWidget->addItems(mDir.entryList()) ;
     }
     else
-    {        
+    {
         // open image
         this->setImageFilename(filepath);
         this->close();
@@ -69,4 +69,15 @@ int myDialog::getCurrItm()
 void myDialog::setImageFilename(QString tmp)
 {
     this->filepath = tmp;
+}
+
+void myDialog::on_pushButton_back_clicked()
+{
+    QDir mDir;
+    mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+    mDir.setPath(filepath);
+    mDir.cdUp();
+    filepath = mDir.path();
+    ui->listWidget->clear();
+    ui->listWidget->addItems(mDir.entryList()) ;
 }
