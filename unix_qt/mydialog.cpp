@@ -10,7 +10,7 @@ myDialog::myDialog(QWidget *parent) :
     ui(new Ui::myDialog)
 {
     ui->setupUi(this);
-    filepath ="D:/Qt/5.4/test";
+    filepath ="/home/comic";
     QDir mDir;
     if ( !mDir.cd(filepath) ) {
         qWarning( "Cannot find the directory" );
@@ -73,6 +73,8 @@ void myDialog::setImageFilename(QString tmp)
 
 void myDialog::on_pushButton_back_clicked()
 {
+    if(filepath == "/home/comic")
+        this->close();
     QDir mDir;
     mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
     mDir.setPath(filepath);
