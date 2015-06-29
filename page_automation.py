@@ -41,7 +41,7 @@ with codecs.open('download_script.sh', 'w', 'utf8') as dl:
 			#print browser.current_url
 			pagesoup = BeautifulSoup(browser.page_source)
 			#print (pagesoup.find(id='TheImg').get('src'))#expect to get the comic pic...
-			dl.write("wget " + pagesoup.find(id='TheImg').get('src') + " -O " + dir_path + "/" + option['value'].zfill(4) + ".jpg\n")
+			dl.write("wget " + pagesoup.find(id='TheImg').get('src') + " -O " + dir_path + "/" + option['value'] + ".jpg\n")
 			time.sleep(5)
 
 browser.quit()
