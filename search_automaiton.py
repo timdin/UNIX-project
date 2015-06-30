@@ -7,6 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 import sys
 import codecs
+import re
 
 search = sys.argv[1].decode("utf-8")
 
@@ -59,8 +60,21 @@ base = browser.current_url[:-1]
 browser.quit()
 display.stop()
 
+download_range_input = raw_input("Please input the chapter you would like to download.\n ex: 111, 222, 444-555, 666")
+token = re.findall(r'([0-9]+-[0-9]+)?([0-9]*)', download_range_input)
+token_list = []
 download_range = []
-download_range += eval("[" + raw_input("Please input the chapter you would like to download\n ex: 4, 5, 6\n") + "]")
+for t in token:
+	for r in t:
+		if(r != "")
+			token_list += r
+for tt in token_list:
+	if not '-' in tt:#regular number
+		download_range += tt
+	else:#do the range
+		download_range += range(int(tt.split("-")[0]), int(tt.split("-")[1])+1)
+		
+#download_range += eval("[" + raw_input("Please input the chapter you would like to download\n ex: 4, 5, 6\n") + "]")
 
 with codecs.open('url_list.txt', 'w', "utf-8") as f:
 	f.write("%s\n" % search)
