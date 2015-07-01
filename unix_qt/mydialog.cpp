@@ -10,7 +10,7 @@ myDialog::myDialog(QWidget *parent) :
     ui(new Ui::myDialog)
 {
     ui->setupUi(this);
-    filepath ="/home/comic";
+    filepath ="D:/qt/5.4/UNIX-project/unix_qt";
     QDir mDir;
     if ( !mDir.cd(filepath) ) {
         qWarning( "Cannot find the directory" );
@@ -29,19 +29,24 @@ myDialog::~myDialog()
 void myDialog::on_pushButton_clicked()
 {
     QListWidgetItem *itm = ui->listWidget->currentItem();
-    currItm = itm->text().toInt();
-    filepath = filepath + "/" + itm->text();   //comic image path
+    qDebug() << "filepath before: " << filepath;
+    filepath.remove("/" + QString::number(currItm) + ".jpg");
+    currItm = itm->text().remove(".jpg").toInt(); //viewing image index numver
+    qDebug() << "cur: " << currItm;
+    filepath = filepath + "/" + itm->text();   //set the current selected item
     QDir mDir;
     mDir.setPath(filepath);
 
     QFileInfo temp(filepath);
-
+    qDebug() << "filepath after: " << filepath;
+    qDebug() << "is dir? " << temp.isDir();
+    qDebug() << "is file? " << temp.isFile();
     if(filepath.isEmpty())
        QMessageBox::information(this,tr("hi"),tr("Please select an item"));
     else if(temp.isDir())
     {
        //"goto next directory "
-       this->setImageFilename(mDir.path());
+       this->setfilepath(mDir.path());
        ui->listWidget->clear();
        mDir.cd(filepath);
        mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
@@ -50,7 +55,7 @@ void myDialog::on_pushButton_clicked()
     else
     {
         // open image
-        this->setImageFilename(filepath);
+        this->setfilepath(filepath);
         this->close();
     }
 
@@ -66,20 +71,23 @@ int myDialog::getCurrItm()
     return currItm;
 }
 
-void myDialog::setImageFilename(QString tmp)
+void myDialog::setfilepath(QString p)
 {
-    this->filepath = tmp;
+    this->filepath = p;
 }
 
 void myDialog::on_pushButton_back_clicked()
 {
-    if(filepath == "/home/comic")
+    if(filepath.compare("D:/qt/5.4/UNIX-project/unix_qt/testImage", "D:/qt/5.4/UNIX-project/unix_qt/testImage") <= 0 )
+    {
+        QDir mDir;
+        mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+        mDir.setPath(filepath);
+        mDir.cdUp();
+        filepath = mDir.path();
+        ui->listWidget->clear();
+        ui->listWidget->addItems(mDir.entryList()) ;
+    }
+    else
         this->close();
-    QDir mDir;
-    mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
-    mDir.setPath(filepath);
-    mDir.cdUp();
-    filepath = mDir.path();
-    ui->listWidget->clear();
-    ui->listWidget->addItems(mDir.entryList()) ;
 }

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/back">
+        <file>bb.jpg</file>
+        <file>warwick.jpg</file>
+    </qresource>
+</RCC>

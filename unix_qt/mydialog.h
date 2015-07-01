@@ -15,7 +15,7 @@ public:
     explicit myDialog(QWidget *parent = 0);
     QString getImageFilename();
     int getCurrItm();
-    void setImageFilename(QString name);
+    void setfilepath(QString p);
     ~myDialog();
 
 private slots:
