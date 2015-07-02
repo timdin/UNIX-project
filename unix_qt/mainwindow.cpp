@@ -8,6 +8,7 @@
 #include <QString>
 #include <QImage>
 #include <QMessageBox>
+#include <QKeyEvent>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -119,4 +120,14 @@ void MainWindow::refreshImage(QString keywords)
     }
     else
         qDebug() << "false keywords pass.";
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if(e->key() == 68)
+        this->on_pushButton_next_clicked();
+    else if(e->key() == 65)
+        this->on_pushButton_previous_clicked();
+    else if(e->key() == 83)
+        this->on_pushButton_select_clicked();
 }
