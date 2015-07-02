@@ -10,7 +10,7 @@ myDialog::myDialog(QWidget *parent) :
     ui(new Ui::myDialog)
 {
     ui->setupUi(this);
-    filepath ="D:/qt/5.4/UNIX-project/unix_qt";
+    filepath ="/home/comic";
     QDir mDir;
     if ( !mDir.cd(filepath) ) {
         qWarning( "Cannot find the directory" );
@@ -78,7 +78,7 @@ void myDialog::setfilepath(QString p)
 
 void myDialog::on_pushButton_back_clicked()
 {
-    if(filepath.compare("D:/qt/5.4/UNIX-project/unix_qt/testImage", "D:/qt/5.4/UNIX-project/unix_qt/testImage") <= 0 )
+    if(filepath.compare("/home/comic", "/home/comic") <= 0 )
     {
         QDir mDir;
         mDir.setFilter(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
